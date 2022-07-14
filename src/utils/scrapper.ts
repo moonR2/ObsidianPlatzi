@@ -37,7 +37,6 @@ const defaultCourse: Course = {
     rating: data.review.reviewRating.ratingValue,
   }
 
-  console.log(course)
   return course;
 
   }

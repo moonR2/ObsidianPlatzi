@@ -1,13 +1,28 @@
 import { App, PluginSettingTab, Setting} from 'obsidian'
 
 import ObsidianPlatzi from 'src/main'
+import {FolderSuggest} from './suggesters/FolderSuggester'
 
+export enum FrontMatterType {
+	snakeCase = 'Snake Case',
+	camelCase = 'Camel Case'
+}
 export interface ObsidianPlatziSettings {
-	mySetting: string;
+	folder: string;
+	fileNameFormat: string;
+	frontMatter: string;
+	content: string;
+	useDefaultFrontMatter: boolean;
+	defaultFrontMatterType: FrontMatterType;
 }
 
 export const DEFAULT_SETTINGS: ObsidianPlatziSettings = {
-	mySetting: 'default'
+	folder: '',
+	fileNameFormat: '',
+	frontMatter: '',
+	content: '',
+	useDefaultFrontMatter: true,
+	defaultFrontMatterType: FrontMatterType.snakeCase,
 }
 
 export class ObsidianPlatziSettingsTab extends PluginSettingTab {
@@ -23,18 +38,24 @@ export class ObsidianPlatziSettingsTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		containerEl.createEl('h2', { text: 'Settings for my awesome plugin.' });
+		containerEl.createEl('h2', { text: 'General Settings' });
 
 		new Setting(containerEl)
-			.setName('Setting #1')
-			.setDesc('It\'s a secret')
-			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
-				.onChange(async (value) => {
-					console.log('Secret: ' + value);
-					this.plugin.settings.mySetting = value;
-					await this.plugin.saveSettings();
-				}));
+			.setName('New file location')
+			.setDesc('New platzi course notes will be placed here.')
+			.addSearch(cb => {
+				try {
+					new FolderSuggest(this.app, cb.inputEl);
+				} catch {
+					// eslint-disable
+				}
+				cb.setPlaceholder('Example: folder1/folder2')
+          .setValue(this.plugin.settings.folder)
+          .onChange(new_folder => {
+            this.plugin.settings.folder = new_folder;
+            this.plugin.saveSettings();
+          });
+			})
+			
 	}
 }

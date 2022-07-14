@@ -26,8 +26,8 @@ export default class ObsidianPlatzi extends Plugin {
 	}
 	async createNewCourseNote(): Promise<void> {
 		try{
-			const url = await this.openUrlModal();
-			console.log(url);
+			const course = await this.openUrlModal();
+			console.log("BOOK RESULT", course);
 		} catch (error) {
 			console.warn(error);
 		}

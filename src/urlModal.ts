@@ -14,8 +14,6 @@ export class UrlModal extends Modal {
   }
 
   async searchCourse() {
-    console.log("query", this.query);
-    console.log("bussy", this.isBusy)
     if (!this.query) {
       throw new Error('No url entered');
     }
@@ -25,7 +23,6 @@ export class UrlModal extends Modal {
         this.isBusy = true;
         this.okBtn.setDisabled(false);
         this.okBtn.setButtonText('Searching...');
-        console.log("not busy")
         const searchResult = await getByUrl(this.query);
         this.onSubmit(null, searchResult);
       } catch (err) {
