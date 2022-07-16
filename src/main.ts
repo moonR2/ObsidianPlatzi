@@ -45,10 +45,10 @@ export default class ObsidianPlatzi extends Plugin {
 	}
 	
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS);
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 	}
 	
 	async saveSettings() {
-		// TODO - save settings
+		await this.saveData(this.settings);
 	}
 }

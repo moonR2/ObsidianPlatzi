@@ -78,10 +78,10 @@ export class ObsidianPlatziSettingsTab extends PluginSettingTab {
 			.setName('Text to insert into frontmatter')
 			.setDesc(createSyntaxesDescription())
 			.addTextArea(textArea => {
-				const prevOption = this.plugin.settings.content;
+				const prevOption = this.plugin.settings.frontMatter;
 				textArea.setValue(prevOption).onChange(async value => {
 					const newOption = value;
-					this.plugin.settings.content = newOption;
+					this.plugin.settings.frontMatter = newOption;
 					await this.plugin.saveSettings();
 				})
 			})
